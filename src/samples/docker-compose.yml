@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  netcorelistener:
+    build: netcore
+    ports: 
+    - 5000:5000
+  nodelistener:
+    build: node
+    ports: 
+    - 3000:3000
+  pythonlistener:
+    build: python
+    ports:
+    - 7000:8080
+  golistener:
+    build: go
+    ports: 
+    - 8000:8000

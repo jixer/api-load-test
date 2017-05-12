@@ -19,7 +19,7 @@ var app = connect();
 
 // respond to all requests
 app.use(function(req, res){
-  res.end('Hello from Connect!\n');
+  res.end('Hello World from Node.JS!\n');
 });
 
 //create node.js http server and listen on port
