@@ -6,4 +6,4 @@ Comparison of HTTP listeners in various languages
 - Node.JS
 
 # Simple Web Server
-This code is located in the simple-release.
+This code is located in the [release-1.0](https://github.com/jixer/api-load-test/tree/release-1.0) branch.
