@@ -28,7 +28,7 @@ namespace WebAPIApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +37,12 @@ namespace WebAPIApplication
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
+            //app.UseMvc();
+            app.Run(async (context) => {
+                string sResp = "Hello from .NET Core!";
+                byte[] bResp = System.Text.ASCIIEncoding.ASCII.GetBytes(sResp);
+                await context.Response.Body.WriteAsync(bResp, 0, bResp.Length);
+            });
         }
     }
 }
