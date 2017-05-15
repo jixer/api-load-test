@@ -14,12 +14,21 @@ var app = connect();
 // }));
 
 // parse urlencoded request bodies into req.body
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({extended: false}));
+ var bodyParser = require('body-parser');
+ app.use(bodyParser.json({}));
 
 // respond to all requests
 app.use(function(req, res){
-  res.end('Hello World from Node.JS!\n');
+  if (req.method == "POST") {
+    var data = req.body;
+    var rString = "Hello " + data.FirstName + " " + data.LastName + " from Node.JS!";
+    var r = { Result: rString };
+    res.writeHead(201, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(r));
+  }
+  else {
+    res.end('Hello World from Node.JS!\n');
+  }
 });
 
 //create node.js http server and listen on port
