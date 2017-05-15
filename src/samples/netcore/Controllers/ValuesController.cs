@@ -14,13 +14,9 @@ namespace WebAPIApplication.Controllers
     {
         // GET api/values
         [HttpGet]
-        public HttpResponseMessage Get()
+        public ActionResult Get()
         {
-            Response.ContentType = "application/text";
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent("Hello world from .NET Core");
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-            return response;
+            return Ok("Hello World from .NET Core");
         }
     }
 }
