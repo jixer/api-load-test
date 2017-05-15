@@ -18,5 +18,14 @@ namespace WebAPIApplication.Controllers
         {
             return Ok("Hello World from .NET Core");
         }
+
+        [HttpPost]
+        public ActionResult Post([FromBody]Contact c)
+        {
+            var r = new SimpleResult{
+                Result = $"Hello {c.FirstName} {c.LastName} from .NET Core!"
+            };
+            return this.Created("", r);
+        }
     }
 }
