@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace WebAPIApplication
 {
@@ -39,9 +41,34 @@ namespace WebAPIApplication
 
             //app.UseMvc();
             app.Run(async (context) => {
-                string sResp = "Hello from .NET Core!";
-                byte[] bResp = System.Text.ASCIIEncoding.ASCII.GetBytes(sResp);
-                await context.Response.Body.WriteAsync(bResp, 0, bResp.Length);
+                var req = context.Request;
+                var reqBody = req.Body;
+                var resp = context.Response;
+
+                if (req.Method == "POST")
+                {
+                    byte[] bData = new byte[2048];
+                    int len = await reqBody.ReadAsync(bData, 0, bData.Length);
+                    string sData = ASCIIEncoding.ASCII.GetString(bData, 0, len);
+                    Contact c = JsonConvert.DeserializeObject<Contact>(sData);
+
+                    string sRespMessage = $"Hello {c.FirstName} {c.LastName} from .NET Core!";
+                    var oResponse = new SimpleResult{
+                        Result = sRespMessage
+                    };
+                    string sResp = JsonConvert.SerializeObject(oResponse);
+                    byte[] bResp = ASCIIEncoding.ASCII.GetBytes(sResp);
+
+                    resp.ContentType = "application/json";
+                    resp.StatusCode = 201;
+                    await resp.Body.WriteAsync(bResp, 0, bResp.Length);
+                }
+                else 
+                {
+                    string sResp = "Hello from .NET Core!";
+                    byte[] bResp = ASCIIEncoding.ASCII.GetBytes(sResp);
+                    await context.Response.Body.WriteAsync(bResp, 0, bResp.Length);
+                }
             });
         }
     }
