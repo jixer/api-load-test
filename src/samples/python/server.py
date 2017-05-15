@@ -1,10 +1,31 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import json
+
+class SimpleResponse(object):
+    Result = ""
+
+    def __init__(self, result):
+        self.Result = result
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
         self.wfile.write("Hello world from Python")
+        return
+    def do_POST(self):
+        len = int(self.headers.getheader("Content-Length", 0))
+        body = self.rfile.read(len)
+        oBody = json.loads(body)
+
+        sRespMessage = "Hello " + oBody["FirstName"] + " " + oBody["LastName"] + " from Python!"
+        oResp = dict(Result=sRespMessage)
+        sResp = json.dumps(oResp)
+
+        self.send_response(201)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(sResp)
         return
 
 def main():
