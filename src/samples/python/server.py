@@ -1,12 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import json
 
-class SimpleResponse(object):
-    Result = ""
-
-    def __init__(self, result):
-        self.Result = result
-
 class HTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
